@@ -10,7 +10,7 @@ const dt = new Date();
 const nowTime = dt.toFormat('YYYYMMDD_HH24MISS');
 const argv = minimist(process.argv.slice(2), {
     default: {
-        ws_uri: 'ws://192.168.7.119:8888/kurento',
+        ws_uri: 'ws://127.0.0.1:8888/kurento',
         file_uri: `file:///tmp/recorder_demo_${nowTime}.webm`,
         video_file: 'file:///home/test/Desktop/nodeKurentoRtpEP/output.mp4',
     },
@@ -114,27 +114,25 @@ console.log(fromSdp);
                 });
             });
             console.log('RtpEndpoint connect RecorderEndpoint Connected');
-        }
 
-        /*
-        // RtpEndpointForPlayer generate SDP
-        const answerSdp = await new Promise((resolve, reject) => {
-            RtpEndpoint.processOffer(
-                fromSdp, (error, answer) => {
-                    if (error) {
-                        reject({
+            // RtpEndpointForPlayer generate SDP
+            const answerSdp = await new Promise((resolve, reject) => {
+                RtpEndpoint.processOffer(
+                    fromSdp, (error, answer) => {
+                        if (error) {
+                            reject({
                             msg: 'RtpEndpoint processOffer() Fail',
-                            error,
-                        });
+                                error,
+                            });
+                        }
+                        resolve(answer);
                     }
-                    resolve(answer);
-                }
-            );
-        });
-        fs.writeFileSync('./to.sdp', answerSdp);
-        // Load Answer
-        console.log('RtpEndpoint processOffer()');
-        */
+                );
+            });
+            // fs.writeFileSync('./to.sdp', answerSdp);
+            // Load Answer
+            console.log('RtpEndpoint processOffer()');
+        }
 
         // RecorderEndpoint recorder()
         await new Promise((resolve, reject) => {
